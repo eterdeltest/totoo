@@ -1,0 +1,8 @@
+# śmieci systemowe i edytorów
+Thumbs.db
+desktop.ini
+.DS_Store
+*.bak
+*.tmp
+.vscode/
+.idea/
