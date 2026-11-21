@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nie znaleziono strony - totoo jeżyckie spa</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/svg/logo.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#051e11">
+  <style>
+    .err {
+      min-height: 100svh; display: grid; place-items: center; text-align: center;
+      background: var(--green-900); color: var(--white); position: relative; overflow: hidden;
+      padding: var(--gutter);
+    }
+    .err .inner { display: grid; gap: 24px; justify-items: center; position: relative; z-index: 1; }
+    .err h1 { font-family: var(--font-serif); font-size: clamp(64px, 12vw, 140px); line-height: 1; color: var(--peach-300); }
+    .err p { color: var(--sage-300); font-size: 18px; }
+    .err img.logo { width: 120px; margin-bottom: 16px; }
+    .err .deco-diamond { width: 496px; filter: blur(60px); opacity: .35; } /* viewBox poszerzony o region blura (×1.6533) */
+    .err .d1 { left: -276px; top: 10%; }
+    .err .d2 { right: -80px; bottom: 10%; }
+  </style>
+</head>
+<body>
+  <main class="err">
+    <img class="deco deco-diamond d1" src="assets/svg/deco-diamond.svg" alt="" aria-hidden="true">
+    <img class="deco deco-diamond d2" src="assets/svg/deco-diamond.svg" alt="" aria-hidden="true">
+    <div class="inner">
+      <img class="logo" src="assets/svg/logo.svg" alt="totoo jeżyckie spa">
+      <h1>404</h1>
+      <p>Ups - ta strona postanowiła się zrelaksować i zniknęła.</p>
+      <a class="btn btn-peach" href="index.html">Wróć na stronę główną
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

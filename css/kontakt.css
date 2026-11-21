@@ -1,0 +1,132 @@
+/* ================================================================
+   totoo — strona „Kontakt"
+   ================================================================ */
+
+.page-main { padding-top: var(--nav-h); }
+
+.kontakt-seg { padding: clamp(56px, 7vw, 120px) 0 0; position: relative; }
+/* Ozdobniki wg makiety: iskra przy nagłówku z lewej, iskra przy formularzu,
+   dot przy chipach; miękki duży romb przy mapie z prawej */
+.kontakt-seg .sp-head { right: calc(50% + 584px); top: 64px; width: 87px; }
+.kontakt-seg .sp-form { left: calc(50% - 22px); top: 58%; width: 44px; --tdur: 8s; }
+.kontakt-seg .dot-right { left: calc(50% + 600px); top: 300px; width: 39px; height: 39px; }
+.mapa-seg .glow-map { right: -150px; top: 80px; width: 560px; opacity: .85; --plx: 0.13; }
+.kontakt-seg h2 { font-size: clamp(32px, 3.3vw, 48px); margin-bottom: clamp(36px, 4.5vw, 64px); }
+.kontakt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 80px); align-items: start; }
+.kontakt-grid .lead-text { font-size: clamp(22px, 2.2vw, 32px); font-weight: 300; line-height: 1.35; letter-spacing: -0.01em; margin-bottom: 32px; }
+.kontakt-grid .lead-text strong { font-weight: 500; }
+
+/* Chipy kontaktowe */
+.chips { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid var(--sage-400); border-radius: var(--r-pill);
+  padding: 13px 20px; font-weight: 600; font-size: 15px; color: var(--ink);
+  transition: background-color .25s ease, border-color .25s ease, transform .25s ease;
+}
+.chip:hover { background: var(--cream); border-color: var(--peach-300); transform: translateY(-2px); }
+.chip.accent { background: var(--grad-peach); border-color: transparent; color: var(--green-800); text-shadow: 1px 1px 0 var(--peach-glint); }
+.chip.accent svg { filter: drop-shadow(1px 1px 0 var(--peach-glint)); }
+
+/* Dane kontaktowe: adres, a pod nim godziny i parking obok siebie.
+   Odstępy luźniejsze (jak przed kompaktowaniem), układ dwukolumnowy zostaje. */
+.contact-details { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 44px; display: grid; gap: 34px; }
+.contact-details .block h3 { font-size: 24px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 10px; }
+.contact-details .block .addr { font-size: 22px; line-height: 1.4; font-weight: 400; letter-spacing: -0.01em; }
+.contact-details .hr-small { width: 24px; height: 2px; background: #f9c0a4; }
+.contact-details .info-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: 40px; }
+.contact-details .block h4 { font-size: 18px; line-height: 26px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 14px; }
+.contact-details .row { font-size: 16px; line-height: 24px; letter-spacing: -0.01em; margin-bottom: 14px; }
+.contact-details .row strong { font-weight: 600; display: block; }
+.contact-details .row:last-child { margin-bottom: 0; }
+/* parking: ikona + tekst w jednym wierszu; ikona wyśrodkowana na wysokości
+   wersalików pierwszej linii */
+.contact-details .parking .row { position: relative; padding-left: 32px; margin-bottom: 14px; }
+.contact-details .parking .row strong { display: inline; margin: 0; }
+.contact-details .ic-park { position: absolute; left: 0; top: 2px; color: #f9c0a4; }   /* środek ikony = środek wersalików 1. linii */
+
+/* Formularz */
+.kontakt-form .lead-text { margin-bottom: 40px; }
+.kontakt-form form { display: grid; gap: 16px; }
+.kontakt-form input, .kontakt-form select, .kontakt-form textarea {
+  width: 100%; border: 1px solid var(--sage-400); background: transparent;
+  border-radius: var(--r-pill); padding: 14px 20px; outline: none;
+  transition: border-color .25s ease;
+  appearance: none; -webkit-appearance: none;
+}
+/* Pole uwag ma stałą wysokość: bez uchwytu do rozciągania i bez paska
+   przewijania — dłuższy tekst chowa się w polu (przewija się kółkiem / klawiszami) */
+.kontakt-form textarea {
+  border-radius: 26px; height: 96px; min-height: 96px; resize: none;
+  overflow-y: auto; scrollbar-width: none;
+}
+.kontakt-form textarea::-webkit-scrollbar { display: none; }
+.kontakt-form input:focus, .kontakt-form select:focus, .kontakt-form textarea:focus { border-color: var(--green-800); }
+.kontakt-form select.is-empty { color: #6b7a73; }
+.kontakt-form ::placeholder { color: #6b7a73; opacity: 1; }
+.kontakt-form .select-wrap { position: relative; }
+.kontakt-form .select-wrap svg {
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; color: var(--ink);
+}
+.kontakt-form .btn { width: 100%; }
+
+/* Mapa + wideo */
+.mapa-seg { padding: clamp(64px, 8vw, 110px) 0 clamp(64px, 8vw, 110px); }
+.mapa-seg .head { text-align: left; display: grid; gap: 20px; margin-bottom: clamp(32px, 4vw, 56px); }
+.mapa-seg h2 { font-size: clamp(32px, 3.3vw, 48px); }
+.mapa-seg .sub { font-size: clamp(18px, 2vw, 24px); font-weight: 300; }
+.mapa-seg .sub strong { font-weight: 500; }
+.mapa-grid { display: grid; grid-template-columns: 720fr 388fr; gap: 12px; }
+.mapa-grid .map {
+  position: relative; border-radius: 12px; overflow: hidden; background: #eeeeee;
+  aspect-ratio: 720 / 622; display: block;
+}
+.mapa-grid .map iframe { width: 100%; height: 100%; border: 0; display: block; }
+.mapa-grid .video {
+  position: relative; border-radius: 12px; overflow: hidden; background: var(--green-800);
+  display: grid; place-items: center; min-height: 280px;
+}
+.mapa-grid .video .play {
+  width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,.14);
+  display: grid; place-items: center; color: var(--white);
+  transition: transform .3s ease, background-color .3s ease;
+}
+.mapa-grid .video:hover .play { transform: scale(1.1); background: rgba(255,255,255,.22); }
+.mapa-grid .video .note {
+  position: absolute; bottom: 20px; left: 0; right: 0; text-align: center;
+  color: var(--sage-300); font-size: 14px;
+}
+
+@media (max-width: 920px) {
+  .kontakt-grid { grid-template-columns: 1fr; }
+  .mapa-grid { grid-template-columns: 1fr; }
+  .mapa-grid .video { min-height: 220px; }
+  .contact-details .block .addr { font-size: 20px; }
+  .contact-details .info-cols { grid-template-columns: 1fr; gap: 24px; }
+}
+
+
+/* ---------- Selecty: własna zaokrąglona lista (desktop; JS dodaje .has-custom) ---------- */
+.select-wrap.has-custom select { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.sel-btn {
+  display: block; width: 100%; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  border: 1px solid var(--sage-400); border-radius: var(--r-pill); background: transparent;
+  padding: 14px 48px 14px 20px; color: var(--ink); line-height: 1.5; transition: border-color .25s ease;
+}
+.sel-btn.is-empty { color: #6b7a73; }
+.sel-btn:focus-visible, .select-wrap.open .sel-btn { border-color: var(--green-800); outline: none; }
+.kontakt-form .select-wrap svg { transition: transform .3s ease; }
+.kontakt-form .select-wrap.open svg { transform: translateY(-50%) rotate(180deg); }
+.sel-list {
+  position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 8px);
+  margin: 0; padding: 8px; list-style: none; max-height: 320px; overflow-y: auto;
+  background: var(--white); border: 1px solid var(--line-green); border-radius: 24px;
+  box-shadow: 0 22px 44px -22px rgba(5, 30, 17, .38);
+  opacity: 0; visibility: hidden; transform: translateY(-8px) scale(.98); transform-origin: top center;
+  transition: opacity .2s ease, transform .28s cubic-bezier(.2,.8,.2,1), visibility 0s .28s;
+}
+.select-wrap.open .sel-list { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.sel-list li { padding: 11px 14px; border-radius: 16px; cursor: pointer; transition: background-color .15s ease; }
+.sel-list li.is-active { background: var(--cream); }
+.sel-list li[aria-selected="true"] { font-weight: 600; }

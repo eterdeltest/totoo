@@ -1,0 +1,397 @@
+/* ================================================================
+   totoo — WERSJA MOBILNA (≤ 760 px)
+   Budowana z makiet mobilnych 360 px (Figma: 01_Home-Full, 02_Menu,
+   03_About, 06/07_Oferta, 08_Vouchery, 09_Kontakt), liczby z drzewa pliku.
+
+   Skala typografii makiety:  hero 36/42 · nagłówki 28/32 · lead 20/26
+                              tekst 16/22 (−1%) · drobny 14/20
+   Odstępy w makiecie są mierzone od wersalików do linii bazowej
+   (Figma „vertical trim”), dlatego bloki tekstu dostają text-box-trim —
+   dzięki temu gapy z makiety przenoszą się 1:1.
+   ================================================================ */
+@media (max-width: 760px) {
+  :root { --gutter: 20px; --nav-h: 82px; --r-photo: 12px; }
+  body { font-size: 16px; line-height: 22px; letter-spacing: -0.01em; }
+
+  .d-only, .ic-d { display: none; }
+  .m-only { display: inline; }
+  br.m-br { display: inline; }
+  .ic-m { display: inline-block; }
+
+  main :is(h1, h2, h3, h4, h5, p), .site-footer :is(h4, p), .side-panel :is(h3, p),
+  .carousel .cap, .acc-head .t, .extras .num {
+    text-box: trim-both cap alphabetic;
+  }
+
+  /* Ozdobniki desktopowe (duże poświaty, iskry w pozycjach 1440) nie mają
+     odpowiedników w makietach mobilnych — tu ich nie ma. Mobile ma własne,
+     drobne: .m-deco + poświaty w tle sekcji. */
+  .deco, .blob, .extras .ellipse { display: none !important; }
+  .m-deco { display: block; position: absolute; pointer-events: none; z-index: 0; max-width: none; }
+  span.m-dot { background: var(--grad-deco); height: auto !important; aspect-ratio: 40 / 54; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+
+  /* ---------- Typografia wspólna ---------- */
+  h1.h-serif, h2.h-serif, h2.h-display, .h-display,
+  .seg-head h2, .oferta-head h2, .faq-seg h2, .kontakt-seg h2, .mapa-seg h2 { font-size: 28px; line-height: 32px; }
+  .h-serif, .categories .list a, .team-card .name, .side-panel h3 { letter-spacing: 0; }
+  .section-head { gap: 24px; max-width: none; padding-inline: 20px; }
+  .section-head .sub { font-size: 16px; line-height: 22px; }
+  .btn { min-height: 52px; padding: 0 20px; }
+
+  /* ---------- Górny pasek: 82px, logo 111×42, „Menu” + ikona ---------- */
+  .site-nav .inner { padding: 20px; min-height: 82px; }
+  /* logo.svg ma pionowy zapas (132×66); kadr 111×42 jak w makiecie */
+  .site-nav .logo { display: block; height: 42px; }
+  .site-nav .logo img { width: 111px; height: 42px; object-fit: cover; }
+  .site-nav.solid, body.nav-dark .site-nav { background: var(--green-900); backdrop-filter: none; }
+  body[data-page="home"] .site-nav.solid { background: rgba(5, 30, 17, .94); backdrop-filter: blur(10px); }
+
+  /* ================================================================
+     STRONA GŁÓWNA
+     ================================================================ */
+  /* Hero „Pełny ekran” (wybór Otisa, 2026-11-21): zdjęcie na cały pierwszy
+     ekran, tekst do lewej przy dolnej krawędzi, przyciski w jednym rzędzie,
+     powolny najazd kamery, wskaźnik przewijania. Układ pierwotny z makiety
+     (680px) i odrzucone warianty: extract/archiwum_mhero_warianty.css. */
+  .hero { height: 100svh; min-height: 560px; max-height: 960px; place-items: end start; border-radius: 0; }
+  .hero .bg { inset: 0; padding: 0; background-size: auto 112%; background-position: 48% 30%; }
+  .hero::before { height: 98px; background: linear-gradient(to bottom, rgba(5, 25, 14, .64), transparent); }
+  .hero::after {
+    height: 80%;
+    background: linear-gradient(to top, #051e11 0, rgba(5, 30, 17, .9) 26%, rgba(5, 30, 17, .5) 56%, rgba(5, 30, 17, 0) 100%);
+  }
+  .hero .radial { display: none; }
+  .hero .content { width: 100%; justify-items: start; text-align: left; padding: 0 20px 62px; gap: 24px; }
+  .hero h1 { font-size: min(40px, 10.2vw); line-height: 1.1; max-width: none; }
+  .hero h1 br { display: none; }
+  /* lead w 3 wierszach: bez wymuszonych łamań, pełna szerokość, równe wiersze */
+  /* 16px od ok. 390px szerokości; na węższych telefonach tekst minimalnie
+     maleje (360px → 14,8px), żeby trzeci wiersz się zmieścił */
+  .hero .sub { font-size: min(16px, 4.1vw); line-height: 22px; letter-spacing: -0.01em; max-width: none; text-wrap: balance; }
+  .hero .sub br { display: none; }
+  .hero .sub .m-strong { font-weight: 600; color: #cfdcd6; }
+  .hero .buttons { flex-direction: row; align-items: stretch; width: 100%; max-width: none; gap: 10px; margin-top: 4px; }
+  .hero .buttons .btn { flex: 1 1 auto; gap: 8px; padding: 0 12px; }
+  .hero .scroll-cue { display: grid; bottom: 4px; height: 48px; }
+  .hero .scroll-cue span { height: 34px; }
+  .hero .scroll-cue span::after { animation-name: cue-drop-m; }
+  @keyframes cue-drop-m {
+    0% { transform: translateY(-4px); opacity: 0; }
+    25%, 75% { opacity: 1; }
+    100% { transform: translateY(30px); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    /* po wejściu „z mgły” zdjęcie bardzo powoli najeżdża i odjeżdża */
+    .hero .bg { animation: hero-drift 3.4s cubic-bezier(.22,.8,.3,1) both, m-hero-pan 24s ease-in-out 3.4s infinite alternate; }
+    @keyframes m-hero-pan { from { scale: 1; } to { scale: 1.09; } }
+  }
+
+  /* Powitanie: nagłówek 36/42 @y40, zdjęcie 340×236 od lewej krawędzi ekranu
+     (prawe rogi r12), tekst 16/22, przycisk 320×52 */
+  .about-intro { padding: 40px 0 32px; }
+  .about-intro .grid { gap: 40px; }
+  .about-intro h1 { font-size: 36px; line-height: 42px; }
+  .about-intro .col-r { gap: 32px; }
+  .about-intro .photo-r {
+    aspect-ratio: 340 / 236; margin: 0 0 0 -20px; border-radius: 0 12px 12px 0;
+  }
+  .about-intro .col-r .text { gap: 20px; font-size: 16px; line-height: 22px; }
+  .about-intro .col-r .btn { width: 100%; }
+  .about-intro .m-star { left: 16px; top: 79px; width: 22px; }
+  .about-intro .m-glow { right: 2px; top: 160px; width: 132px; z-index: 2; filter: blur(5px); opacity: .85; }
+
+  /* Oferta: panel 352 (margines 4), r12, wys. 361; linki 28/32 w jednej linii */
+  .categories { padding: 0; }
+  .categories .panel-wrap { margin-inline: 4px; }
+  .categories .panel { margin: 0; border-radius: 12px; padding: 40px 14px 49px; }
+  .categories .section-head { padding: 0; }
+  .categories .list { margin-top: 40px; gap: 20px; }
+  .categories .list a { font-size: 28px; line-height: 32px; padding: 0 0 8px; text-box: trim-both cap alphabetic; }
+  .categories .m-dot { left: 34px; top: -9px; width: 21px; height: 21px; z-index: 3; }
+  .categories .m-star { right: 22px; bottom: -27px; width: 54px; z-index: 3; filter: blur(1.5px); }
+
+  /* Najchętniej wybierane: 3 kafelki — środkowy 154×203, boczne 135×184,
+     odstęp 20; podpisy DM Sans Medium 16 (środek 18), podkreślone */
+  .bestsellers { padding: 32px 0 0; }
+  .carousel { margin-top: 32px; --car-max: 1.14; --car-min: 1; --car-drop: .163; --car-push: 9.5; --car-fade: 0; }
+  .carousel .track {
+    gap: 20px; padding: 0 calc(50vw - 67.5px) 47px; scroll-padding-inline: calc(50vw - 67.5px);
+  }
+  .carousel .item { width: 135px; }
+  .carousel .item-in { gap: 14px; }
+  .carousel .item .ph { height: 181px; border-radius: 8px; }
+  .carousel .item .cap {
+    font-size: 16px; line-height: 20px; font-weight: 500; letter-spacing: 0;
+    text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  }
+  .carousel .item .cap::after { display: none; }
+
+  /* Zapraszamy: nagłówek → zdjęcie (dobite do prawej) → statystyki */
+  .extras { padding: 32px 0 56px; }
+  .extras .grid { grid-template-columns: 1fr; gap: 0; }
+  .extras .col-l { display: contents; }
+  .extras h2 { order: 1; width: auto; max-width: none; margin: 0; }
+  .extras .photo-wrap { order: 2; margin: 32px -20px 32px 60px; }
+  .extras .photo { aspect-ratio: 280 / 212; margin: 0; border-radius: 14px 0 0 14px; }
+  .extras .stats { order: 3; max-width: none; }
+  .extras .stat { align-items: flex-start; gap: 12px; padding: 20px 20px 20px 0; margin-right: -20px; }
+  .extras .stat:first-child { padding-top: 0; }
+  .extras .stat:last-child { padding-bottom: 0; }
+  .extras .stat .num { font-size: 28px; line-height: 32px; width: 87px; }
+  .extras .stat .desc { font-size: 16px; line-height: 22px; }
+  /* Gwiazda za zdjęciem: w makiecie wychodzi 8px poza ekran — tutaj cała
+     mieści się w oknie (6px od krawędzi), bo wygaszanie przy krawędzi
+     zwężało ją do wąskiej smugi. Widać lewe ramię i środek, reszta za zdjęciem. */
+  .extras .photo-wrap .m-star { left: -74px; top: 26px; width: 135px; z-index: -1; filter: blur(7px); }
+  .extras .photo-wrap .m-dot { left: 237px; top: -4px; width: 21px; height: 21px; z-index: -1; }
+
+  /* Vouchery: układ wyśrodkowany jak w makiecie, ale kompaktowy (ok. 350px
+     zamiast 440): koperty większe i podsunięte wyżej, tekst i przycisk
+     leżą NA zdjęciu; gradient od dołu daje przyciskowi tło. */
+  .vouchers { padding: 0; }
+  .vouchers .wrap { padding-inline: 4px; }
+  .vouchers .banner {
+    display: block; min-height: 350px; padding: 36px 16px; border-radius: 12px; overflow: hidden;
+    background: #042d1c radial-gradient(circle at 104% 58%, rgba(13, 112, 71, .62), rgba(13, 112, 71, 0) 58%);
+  }
+  .vouchers .banner::after {
+    content: ''; position: absolute; inset: 66% 0 0 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(4, 45, 28, 0), rgba(4, 45, 28, .6));
+  }
+  .vouchers .content { position: static; max-width: none; gap: 20px; justify-items: center; text-align: center; }
+  .vouchers .content h2, .vouchers .content .sub { position: relative; z-index: 2; }
+  /* nagłówek w jednym wierszu: 28px mieści się od ~390px, węższe ekrany skalują go w dół */
+  .vouchers .content h2 { font-size: min(28px, 7.2vw); white-space: nowrap; }
+  .vouchers .content h2 .m-br { display: none; }
+  .vouchers .sub { font-size: 16px; line-height: 22px; text-shadow: 0 1px 10px rgba(4, 45, 28, .7); }
+  .vouchers .sub br { display: none; }
+  .vouchers .content .ph {
+    display: block; position: absolute; z-index: 0; left: calc(50% - 236px); top: 96px; width: 480px; height: 323px;
+    margin: 0; aspect-ratio: auto; transform: rotate(-8.4deg);
+    background: url('../assets/img/m_vouchers.jpg') center / cover no-repeat;
+    /* zdjęcie rozjaśnione o ok. 18% i szybciej dochodzi do pełnego krycia (30% zamiast 38%) */
+    filter: brightness(1.18) saturate(1.04);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent 2%, #000 30%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent 2%, #000 30%);
+    mask-composite: intersect;
+  }
+  .vouchers .content .btn {
+    position: absolute; z-index: 3; left: 0; right: 0; bottom: 28px; margin-inline: auto; width: max-content;
+  }
+
+  /* Klisze: zdjęcia 141×175, odstęp 4, łuk kliszy (połowa skali desktopu) */
+  .instagram { padding: 40px 0 13px; }
+  .instagram .section-head .handle { text-decoration: underline; text-underline-offset: 3px; }
+  .instagram .strip-wrap { margin-top: 25px; }
+  .instagram .set { gap: 4px; padding-right: 4px; }
+  .instagram .strip a { width: 141px; aspect-ratio: 141 / 175; }
+  .instagram .arc { display: block; width: 784px; left: calc(50% - 392px); top: -33.5px; }
+
+  /* ================================================================
+     STOPKA — 688px w makiecie
+     ================================================================ */
+  .site-footer { padding: 20px 0; }
+  /* Dwie równoważne kolumny (dane kontaktowe | nawigacja), newsletter pod nimi
+     na całą szerokość. Linki w obu kolumnach mają JEDEN styl. */
+  .site-footer .cols { grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr); gap: 0 16px; }
+  .site-footer .cols > div:nth-child(3) { grid-column: 1 / -1; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .site-footer h4 { font-size: 16px; line-height: 24px; margin-bottom: 20px; }
+  .site-footer .addr { font-size: 14px; line-height: 20px; margin-bottom: 20px; color: var(--ink-soft); }
+  .site-footer .contact-list { gap: 12px; justify-items: start; }
+  .site-footer nav ul { gap: 12px; justify-items: start; }
+  .site-footer .contact-list a, .site-footer nav a {
+    font-size: 14px; font-weight: 600; line-height: 16px; color: var(--ink);
+    text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  }
+  .site-footer .contact-list a { gap: 8px; }
+  .site-footer .contact-list svg { color: var(--peach-450); }
+  /* cały wiersz jest celem dotyku */
+  .site-footer nav a { display: block; position: relative; }
+  .site-footer nav a::before { content: ''; position: absolute; inset: -6px -8px; }
+  .site-footer .news-text { font-size: 14px; line-height: 20px; margin-bottom: 20px; }
+  .news-form { gap: 8px; }
+  .news-form input { flex: none; height: 44px; padding: 0 20px; font-size: 16px; }
+  .news-form .btn svg { color: var(--peach-300); }
+  .news-form .btn { min-height: 44px; height: 44px; font-size: 14px; gap: 8px; background: var(--grad-green); }
+  .site-footer .bottom {
+    flex-direction: row; align-items: center; justify-content: space-between; gap: 8px;
+    margin-top: 20px; padding-top: 20px; font-size: 14px; line-height: 20px;
+  }
+  .site-footer .bottom p { color: var(--ink-soft); }
+  .site-footer .to-top { font-size: 14px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+  /* ================================================================
+     PODSTRONY — wspólne
+     ================================================================ */
+  .page-main { position: relative; }
+  /* poświaty z makiety: elipsa w prawym górnym rogu treści i w lewym dolnym */
+  .page-main::before, .page-main::after {
+    content: ''; position: absolute; left: 0; right: 0; pointer-events: none; z-index: 0;
+  }
+  .page-main::before {
+    top: var(--nav-h); height: 300px;
+    background: radial-gradient(ellipse 58% 64% at 88% 2%, rgba(250, 180, 146, .42), rgba(255, 220, 203, 0) 72%);
+  }
+  .page-main::after {
+    bottom: 0; height: 260px;
+    background: radial-gradient(ellipse 62% 56% at 14% 62%, rgba(250, 180, 146, .36), rgba(255, 220, 203, 0) 72%);
+  }
+  .page-main > section { z-index: 1; }
+  .m-top-star { right: 6px; top: 28px; width: 61px; filter: blur(2.5px); }
+
+  .about-seg, .voucher-seg, .kontakt-seg { padding: 32px 0 0; }
+  .seg-head { gap: 32px; }
+  /* łamanie nagłówków jak w makietach (szerokości pól tekstowych) */
+  .oferta-head h2 { max-width: 256px; }
+  .voucher-seg .seg-head h2 { max-width: 296px; }
+  .kontakt-seg > .wrap > h2 { max-width: 232px; }
+  .seg-head .copy { gap: 24px; }
+  .seg-head .copy .big, .kontakt-grid .lead-text, .mapa-seg .sub { font-size: 20px; line-height: 26px; letter-spacing: 0; }
+  .seg-head .copy .small { font-size: 16px; line-height: 22px; gap: 20px; }
+
+  /* ---------- O nas ---------- */
+  /* Galeria 352×250 (margines 4), r8, bez strzałek. Kadr (.g-frame) przycina
+     animację przejścia. Nawigacja: kropki, aktywna rozciąga się w pasek,
+     który wypełnia się złotem (zajmuje mniej miejsca niż rząd pasków). */
+  .gallery { margin: 32px -16px 0; }
+  .gallery .g-frame { aspect-ratio: 352 / 250; border-radius: 8px; }
+  .gallery .g-arrow { display: none; }
+  /* padding = większy cel dotyku niż sama kropka */
+  .gallery .g-bars { gap: 0; margin-top: 2px; padding-block: 10px; margin-bottom: -10px; }
+  .gallery .g-bars button { width: 14px; height: 12px; }
+  .gallery .g-bars button::before, .gallery .g-bars button::after { left: 4px; right: 4px; height: 6px; margin-top: -3px; border-radius: 6px; }
+  .gallery .g-bars button::before { background: #dbdbdb; }
+  .gallery .g-bars button.on { width: 32px; }
+  .gallery .g-bars button.on::before { background: #fbdccb; }
+
+  /* Zespół jak w makiecie: kolumna tekstu ma ZAWSZE 99px (nie „reszta
+     szerokości”), zdjęcie bierze resztę — dzięki temu na każdym telefonie
+     imię nachodzi na zdjęcie, zamiast stać obok jak druga kolumna.
+     Imię 28/32 podkreślone; przycisk = kółko 52px ze strzałką, bez cienia
+     i bez efektów hover (na dotyku hover „przykleja się” po tapnięciu).
+     Sam przycisk NIE może mieć `transition: none` — wchodzi w sekwencji .rv. */
+  .team-seg { padding: 32px 0; }
+  .team-cards { margin-top: 32px; gap: 24px; }
+  .team-card { grid-template-columns: 99px minmax(0, 1fr); gap: 0; }
+  .team-card .copy { display: grid; padding-top: 32px; gap: 24px; justify-items: start; }
+  .team-card .copy > div { order: 0; display: grid; gap: 24px; }
+  .team-card .name { font-size: 28px; line-height: 32px; white-space: nowrap; }
+  .team-card .name, .team-card .name .wi { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .team-card .role { font-size: 16px; line-height: 22px; margin: 0; }
+  .team-card .photo { order: 0; max-width: none; border-radius: 12px; aspect-ratio: 221 / 304; }
+  .team-card .copy .btn-more { order: 0; width: 52px; height: 52px; padding: 0; justify-content: center; border-radius: 50%; box-shadow: none; }
+  .team-card .btn-more .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .team-card .btn-more::before { display: none; }
+  .team-card .btn-more svg, .team-card .btn-more:hover svg, .team-card .btn-more:focus-visible svg { transform: none; transition: none; }
+
+  /* Panel osoby / RODO: pełny ekran */
+  .side-panel { width: var(--vpw, 100%); padding: 32px 20px; }
+  .side-panel .close-btn { top: 22px; right: 12px; }
+  .side-panel h3 { font-size: 28px; line-height: 32px; margin-bottom: 12px; padding-right: 44px; }
+  .side-panel .role { font-size: 16px; line-height: 22px; margin-bottom: 32px; }
+  /* RODO (bez roli i zdjęć): nagłówek → treść 32px, tak jak rola → zdjęcia w panelach zespołu */
+  .side-panel h3 + .panel-body { margin-top: 32px; }   /* marginesy rodzeństwa się zlewają: liczy się większy */
+  .side-panel .panel-photos { grid-template-columns: 204fr 112fr; gap: 4px; margin-bottom: 24px; }
+  .side-panel .panel-photos img { height: 136px; border-radius: 8px; }
+  .side-panel .panel-body { gap: 20px; font-size: 14px; line-height: 20px; }
+  .side-panel .panel-quote {
+    background: none; border-radius: 0; border-left: 2px solid var(--peach-200);
+    padding: 12px 0 12px 16px; font-size: 16px; line-height: 22px;
+  }
+
+  /* ---------- Oferta ---------- */
+  .oferta-head { padding: 32px 0; }
+  .price-list { padding-bottom: 32px; }
+  .acc-head { padding: 20px 0; gap: 12px; }
+  .acc-head .t { display: block; }
+  .acc-head svg { width: 20px; height: 20px; }
+  /* rozwinięta pozycja: tytuł podkreślony (jak w makietach Expanded) */
+  .acc.open .acc-head .t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  body[data-page="oferta"] .acc-head .t {
+    font-family: var(--font-sans); font-size: 20px; line-height: 26px; font-weight: 500; letter-spacing: 0;
+  }
+  body[data-page="oferta"] .acc-head .t b { font-weight: inherit; }
+  body[data-page="oferta"] .acc-inner { gap: 24px; padding: 4px 0 24px; }
+  .price-seg { gap: 6px; }
+  /* romb z makiety mobile: kwadrat 8×8 obrócony o 45° w ramce 12×11, odstęp 8 */
+  .price-seg .sub { gap: 8px; --sub-fs: 16px; --sub-lh: 22px; --sub-dot: 11.3px; }
+  .price-seg .sub i { width: 12px; }
+  .price-seg .sub h4 { text-box: none; }
+  .price-items .item .n { max-width: none; }
+  .price-items .item .n .nb { white-space: normal; }
+  .price-seg .sub h4 small { font-size: 14px; }
+  .price-items { padding-left: 18px; }
+  .price-items .item { padding: 6px 0; }
+  .price-items .item .n, .price-items .item .p { font-size: 14px; line-height: 22px; }
+  .price-items .item .n small { font-size: 12px; line-height: 16px; margin-top: 1px; }
+
+  .info-cards { padding-bottom: 32px; }
+  /* beżowy boks ma te same marginesy od krawędzi ekranu co akordeon (20px) */
+  .info-cards .wrap { padding-inline: 20px; }
+  .info-cards .box { border-radius: 12px; padding: 24px 20px; gap: 20px; }
+  .info-cards .divider { display: block; height: 2px; opacity: 1; background: linear-gradient(#ecd9cf 50%, #ffffff 50%); }
+  .info-card .head { gap: 12px; margin-bottom: 20px; }
+  .info-card .head svg { width: 24px; height: 24px; color: var(--peach-450); }
+  .info-card .head h3 { font-size: 16px; line-height: 22px; }
+  .info-card p { font-size: 14px; line-height: 20px; margin-bottom: 20px; }
+
+  /* ---------- Vouchery ---------- */
+  .voucher-collage { margin: 32px -16px 0; gap: 4px; }
+  .voucher-collage .ph { border-radius: 8px; }
+  .voucher-collage .main { aspect-ratio: 352 / 214; }
+  .voucher-collage .col { gap: 4px; }
+  .voucher-collage .col .ph { aspect-ratio: 174 / 171; }
+  .faq-seg { padding: 32px 0; }
+  .faq-seg h2 { margin-bottom: 32px; }
+  body[data-page="vouchery"] .acc-head { padding: 16px 0; }
+  body[data-page="vouchery"] .acc-head .t { font-size: 16px; line-height: 22px; font-weight: 500; letter-spacing: 0; }
+  body[data-page="vouchery"] .acc-inner { padding: 4px 0 20px; gap: 20px; }
+  body[data-page="vouchery"] .acc-inner h5 { font-size: 14px; line-height: 20px; margin-bottom: 16px; }
+  body[data-page="vouchery"] .acc-inner p { font-size: 14px; line-height: 20px; }
+
+  /* ---------- Kontakt ---------- */
+  .kontakt-seg h2 { margin-bottom: 32px; }
+  .kontakt-grid { gap: 0; }
+  .kontakt-grid .lead-text { margin-bottom: 32px; }
+  /* chipy: pełna szerokość, 44px, obrys 2px, kolejność z makiety */
+  .chips { display: grid; gap: 12px; margin-bottom: 12px; }
+  .chip, .chip.accent {
+    justify-content: center; height: 44px; padding: 0 20px; gap: 8px;
+    border: 2px solid var(--peach-300); background: none; font-size: 14px; color: var(--ink);
+  }
+  .chip svg { color: var(--peach-450); }
+  .chips a[href^="tel"], .chips a[href*="instagram"] { order: -1; }
+  .contact-details { margin-top: 20px; padding-top: 24px; gap: 24px; }
+  .contact-details .block h3 { font-size: 20px; line-height: 26px; margin-bottom: 24px; }
+  .contact-details .block .addr { font-size: 16px; line-height: 22px; }
+  .contact-details .block h4 { font-size: 16px; line-height: 24px; margin-bottom: 20px; }
+  .contact-details .row { font-size: 14px; line-height: 20px; margin-bottom: 16px; }
+  .contact-details .row strong { margin-bottom: 0; }
+  .contact-details .parking .row { margin-bottom: 16px; }
+  /* tekst jest tu przycięty do wersalików (text-box-trim), więc ikona 18px
+     ma środek na środku wersalików 1. wiersza: 4,9px − 9px */
+  .contact-details .parking .row { padding-left: 28px; }
+  .contact-details .ic-park { width: 18px; height: 18px; top: -4px; }
+  .contact-details br.d-br { display: none; }
+
+  .kontakt-form { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--line); }
+  .kontakt-form .lead-text { margin-bottom: 32px; }
+  .kontakt-form form { gap: 12px; --fgap: 12px; }
+  /* 44px jak w makiecie; font 16px (nie 14), żeby iOS nie przybliżał pola przy fokusie */
+  .kontakt-form input, .kontakt-form select { height: 44px; padding: 0 20px; font-size: 16px; }
+  .kontakt-form select { padding-right: 44px; text-overflow: ellipsis; }
+  .kontakt-form textarea { height: 44px; min-height: 44px; padding: 10px 20px; border-radius: 22px; font-size: 16px; }
+  .kontakt-form .select-wrap svg { right: 16px; }
+  .kontakt-form .btn { min-height: 44px; height: 44px; font-size: 14px; gap: 8px; background: var(--grad-green); }
+  .kontakt-form .btn svg { color: var(--peach-300); }
+
+  .mapa-seg { margin-top: 32px; padding: 32px 0; }
+  .mapa-seg::before { content: ''; position: absolute; top: 0; left: 20px; right: 20px; height: 1px; background: var(--line); }
+  .mapa-seg .head { gap: 32px; margin-bottom: 32px; }
+  .mapa-grid { margin-inline: -16px; gap: 4px; }
+  .mapa-grid .map { aspect-ratio: 1; border-radius: 8px; }
+  .mapa-grid .video { aspect-ratio: 352 / 554; min-height: 0; border-radius: 8px; }
+  .mapa-grid .video .play { width: 40px; height: 40px; background: var(--white); color: var(--green-800); }
+  .mapa-grid .video .play svg { width: 18px; height: 18px; }
+}

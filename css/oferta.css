@@ -1,0 +1,104 @@
+/* ================================================================
+   totoo — strona „Oferta" (akordeon cennika)
+   ================================================================ */
+
+.page-main { padding-top: var(--nav-h); }
+
+.oferta-head { padding: clamp(56px, 7vw, 120px) 0 clamp(40px, 5vw, 64px); position: relative; }
+/* Ozdobniki wg makiety: iskra przy nagłówku z lewej, dot z prawej */
+.oferta-head .sp-head { right: calc(50% + 590px); top: 160px; width: 68px; }
+.oferta-head .dot-right { left: calc(50% + 600px); top: 430px; width: 39px; height: 39px; }
+.oferta-head h2 { font-size: clamp(32px, 3.3vw, 48px); }
+.seg-head { display: grid; gap: clamp(32px, 4.5vw, 64px); }
+.seg-head .copy { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+.seg-head .copy .big { font-size: clamp(22px, 2.2vw, 32px); font-weight: 300; line-height: 1.35; letter-spacing: -0.01em; }
+.seg-head .copy .big strong { font-weight: 500; }
+.seg-head .copy .small { font-size: 18px; letter-spacing: -0.01em; }
+.seg-head .copy .small strong { font-weight: 600; display: block; }
+
+/* ---------- Akordeon ---------- */
+.price-list { padding-bottom: clamp(48px, 5vw, 72px); }
+.acc { border-bottom: 1px solid var(--line); }
+.acc:first-child { border-top: 1px solid var(--line); }
+.acc.open { border-bottom: 2px solid var(--peach-500); }
+.acc-head {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; padding: clamp(24px, 3vw, 36px) 0; text-align: left;
+}
+.acc-head .t {
+  font-family: var(--font-serif); font-size: clamp(24px, 2.6vw, 36px); line-height: 1.1;
+  color: var(--green-900); transition: color .3s ease;
+}
+.acc-head .t b { font-weight: 600; }
+.acc-head svg { flex: none; color: var(--green-900); transition: transform .4s ease, color .3s ease; }
+.acc-head:hover .t, .acc.open .acc-head .t { color: var(--peach-500); }
+.acc-head:hover svg, .acc.open .acc-head svg { color: var(--peach-500); }
+.acc.open .acc-head svg { transform: rotate(180deg); }
+.acc-body {
+  display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.33,1,.42,1);
+}
+.acc.open .acc-body { grid-template-rows: 1fr; }
+.acc-body > div { overflow: hidden; }
+.acc-inner { display: grid; gap: clamp(40px, 5vw, 64px); padding: 8px 0 clamp(40px, 5vw, 56px); }
+
+/* Segment cennika: podkategoria + pozycje */
+.price-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+/* Romb z makiety: kwadrat 12×12 obrócony o 45° = romb 17×17. Rysowany jako
+   pudełko 17×17 z clip-path (bez rotate — obrócony kwadrat wystawał poza
+   swoje pudełko i ucinała go krawędź akordeonu), wyśrodkowany w pionie
+   na pierwszym wierszu nazwy (środek wersalików ≈ środek interlinii). */
+.price-seg .sub {
+  display: flex; gap: 20px; align-items: flex-start;
+  --sub-fs: clamp(20px, 2vw, 24px); --sub-lh: calc(var(--sub-fs) * 1.5); --sub-dot: 17px;
+}
+.price-seg .sub i {
+  width: var(--sub-dot); height: var(--sub-dot); flex: none; background: var(--grad-deco);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  margin-top: calc((var(--sub-lh) - var(--sub-dot)) / 2);
+}
+.price-seg .sub h4 { font-size: var(--sub-fs); font-weight: 500; line-height: var(--sub-lh); }
+.price-seg .sub h4 small { display: block; font-size: 16px; font-weight: 300; line-height: 1.4; }
+.price-items .item {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 32px;
+  padding: 14px 0; border-bottom: 1px solid var(--line);
+}
+/* Kolumna z nazwą jest węższa niż wiersz — opis nigdy nie dochodzi pod samą cenę */
+.price-items .item .n { font-size: 18px; max-width: 420px; }
+.price-items .item .n small { display: block; font-size: 16px; color: var(--ink-soft); margin-top: 2px; }
+.price-items .item .n .nb { white-space: nowrap; }
+.price-items .item .p { font-size: 18px; font-weight: 600; white-space: nowrap; }
+
+/* Jak w makiecie: pierwsza pozycja zaczyna się na wysokości nazwy podkategorii
+   (górne krawędzie liter w jednej linii), a nie 14px niżej */
+@media (min-width: 921px) {
+  .price-items { padding-top: calc(var(--sub-off, 9.4px) - 7px); }
+  .price-items .item:first-child { padding-top: 0; }
+}
+
+/* ---------- Karty informacyjne ---------- */
+.info-cards { padding-bottom: clamp(64px, 8vw, 110px); }
+.info-cards .box {
+  background: linear-gradient(135deg, #fff8f4, #f3e5dd);
+  border-radius: 24px; padding: clamp(28px, 4vw, 40px);
+  display: grid; grid-template-columns: 1fr 1px 1fr; gap: clamp(28px, 4vw, 40px);
+}
+.info-cards .divider { background: var(--peach-200); opacity: .5; }
+.info-card .head { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.info-card .head svg { color: var(--green-800); flex: none; }
+.info-card .head h3 { font-size: clamp(20px, 2vw, 24px); font-weight: 600; color: var(--green-900); }
+.info-card p { font-size: 16px; color: var(--green-900); margin-bottom: 14px; line-height: 1.55; }
+.info-card p:last-child { margin-bottom: 0; }
+.info-card strong { font-weight: 600; }
+
+@media (max-width: 920px) {
+  .seg-head .copy { grid-template-columns: 1fr; gap: 20px; }
+  .price-seg { grid-template-columns: 1fr; gap: 16px; }
+  .info-cards .box { grid-template-columns: 1fr; }
+  .info-cards .divider { display: none; }
+}
+
+/* Kaskadowe pojawianie się pozycji po otwarciu akordeonu */
+@media (prefers-reduced-motion: no-preference) {
+  .acc .acc-inner > * { opacity: 0; translate: 0 16px; transition: opacity .45s ease, translate .45s ease; }
+  .acc.open .acc-inner > * { opacity: 1; translate: 0 0; transition-delay: calc(var(--i, 0) * 85ms + 180ms); }
+}

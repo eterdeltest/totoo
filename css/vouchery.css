@@ -1,0 +1,99 @@
+/* ================================================================
+   totoo — strona „Vouchery"
+   ================================================================ */
+
+.page-main { padding-top: var(--nav-h); }
+
+.voucher-seg { padding: clamp(56px, 7vw, 120px) 0 0; position: relative; }
+/* Ozdobniki: duży diament u góry z lewej (przy nagłówku), a duża gwiazda
+   — przeniesiona 2026-11-21 z lewego marginesu na PRAWY, przy dolnym kaflu
+   kolażu. Z lewej jest już duże zdjęcie i poświata, więc dwa duże znaczki
+   po tej samej stronie przeważały kompozycję w lewo. */
+.voucher-seg .dot-top { right: calc(50% + 590px); top: 40px; width: 46px; height: 46px; }
+.voucher-seg .sp-collage { left: calc(50% + 578px); top: 838px; width: 84px; }
+.voucher-seg .dot-faq { display: none; }
+.seg-head { display: grid; gap: clamp(32px, 4.5vw, 64px); }
+.seg-head h2 { font-size: clamp(32px, 3.3vw, 48px); }
+.seg-head .copy { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+.seg-head .copy .big { font-size: clamp(22px, 2.2vw, 32px); font-weight: 300; line-height: 1.35; letter-spacing: -0.01em; }
+.seg-head .copy .big strong { font-weight: 500; }
+.seg-head .copy .small { font-size: 18px; letter-spacing: -0.01em; display: grid; gap: 16px; }
+.seg-head .copy .small strong { font-weight: 600; }
+
+/* Kolaż zdjęć */
+.voucher-collage {
+  margin-top: clamp(40px, 5vw, 64px);
+  display: grid; grid-template-columns: 797fr 311fr; gap: 12px;
+}
+.voucher-collage .ph { border-radius: 12px; overflow: hidden; background: #eeeeee; }
+.voucher-collage .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s ease; }
+.voucher-collage .ph:hover img { transform: scale(1.04); }
+.voucher-collage .main { aspect-ratio: 797 / 622; }
+.voucher-collage .col { display: grid; grid-template-rows: 1fr 1fr; gap: 12px; }
+
+/* FAQ */
+.faq-seg { padding: clamp(64px, 8vw, 110px) 0 clamp(64px, 8vw, 110px); }
+.faq-seg h2 { font-size: clamp(32px, 3.3vw, 48px); margin-bottom: clamp(32px, 4vw, 64px); }
+.acc { border-bottom: 1px solid var(--line); }
+.acc:first-of-type { border-top: 1px solid var(--line); }
+.acc.open { border-bottom: 2px solid var(--peach-500); }
+.acc-head {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; padding: clamp(20px, 2.5vw, 28px) 0; text-align: left;
+}
+.acc-head .t { font-size: clamp(18px, 2vw, 24px); color: var(--green-900); transition: color .3s ease; }
+.acc-head svg { flex: none; color: var(--green-900); transition: transform .4s ease, color .3s ease; }
+.acc-head:hover .t, .acc.open .acc-head .t { color: var(--peach-500); }
+.acc-head:hover svg, .acc.open .acc-head svg { color: var(--peach-500); }
+.acc.open .acc-head svg { transform: rotate(180deg); }
+.acc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.33,1,.42,1); }
+.acc.open .acc-body { grid-template-rows: 1fr; }
+.acc-body > div { overflow: hidden; }
+.acc-inner { padding: 4px 0 clamp(28px, 3vw, 36px); display: grid; gap: 24px; max-width: 760px; }
+.acc-inner h5 { font-size: 16px; font-weight: 600; margin: 0 0 6px; }
+.acc-inner p { font-size: 16px; color: var(--ink); line-height: 1.6; }
+
+@media (max-width: 920px) {
+  .seg-head .copy { grid-template-columns: 1fr; gap: 20px; }
+  .voucher-collage { grid-template-columns: 1fr; }
+  .voucher-collage .col { grid-template-rows: none; grid-template-columns: 1fr 1fr; }
+  .voucher-collage .col .ph { aspect-ratio: 1; }
+}
+
+/* Kaskadowe pojawianie się pozycji po otwarciu akordeonu */
+@media (prefers-reduced-motion: no-preference) {
+  .acc .acc-inner > * { opacity: 0; translate: 0 16px; transition: opacity .45s ease, translate .45s ease; }
+  .acc.open .acc-inner > * { opacity: 1; translate: 0 0; transition-delay: calc(var(--i, 0) * 85ms + 180ms); }
+}
+
+/* ---------- Jak zamówić voucher (wybrana propozycja 2, 2026-11-20) ---------- */
+.order-ways { padding: clamp(64px, 8vw, 110px) 0 0; }
+.order-ways h2 { font-size: clamp(32px, 3.3vw, 48px); margin-bottom: clamp(32px, 4vw, 56px); }
+.ow-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+/* Boksy w ciemnej zieleni marki (kontrast do jasnej strony): gradient jak
+   w zielonych przyciskach, w rogu delikatna brzoskwiniowa poświata, ikona
+   i akcenty w brzoskwini, tekst w szałwii jak na hero. */
+.ow-card {
+  position: relative; overflow: hidden; isolation: isolate;
+  display: grid; grid-template-rows: auto auto 1fr auto; gap: 16px; justify-items: start;
+  padding: 32px 28px; border-radius: 24px; color: var(--white);
+  background: linear-gradient(165deg, #0a5138 0%, var(--green-800) 46%, #06281a 100%);
+}
+.ow-card::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(90% 70% at 100% 0%, rgba(248, 183, 151, .2), rgba(248, 183, 151, 0) 62%);
+}
+.ow-card .ow-ic {
+  width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(248, 183, 151, .12); border: 1px solid rgba(248, 183, 151, .38); color: var(--peach-300);
+}
+.ow-card h3 { font-size: 22px; font-weight: 600; color: var(--white); }
+.ow-card p { font-size: 16px; line-height: 1.55; color: var(--sage-300); }
+.ow-card .btn { margin-top: 8px; }
+
+@media (max-width: 920px) { .ow-grid { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .order-ways { padding-top: 32px; }
+  .order-ways h2 { font-size: 28px; line-height: 32px; margin-bottom: 24px; }
+  .ow-card { padding: 24px 20px; border-radius: 12px; }
+}

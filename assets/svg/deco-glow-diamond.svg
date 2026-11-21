@@ -1,0 +1,15 @@
+<svg width="219.65" height="263.37" viewBox="1241.93 535.00 219.65 263.37" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Rozmyty romb z grupy Stars (Home/About, dot 118x118 rot45 blur24).
+     viewBox z zapasem 48px na każdą stronę (blur σ=12 → 3σ=36), żeby
+     ramka SVG NIGDY nie ucinała poświaty. Region filtra = cały viewBox. -->
+<g filter="url(#f)"><path d="M1289.93 666.684L1351.75 583L1413.58 666.684L1351.75 750.367L1289.93 666.684Z" fill="url(#gd)"/></g>
+<defs>
+<filter id="f" x="1241.93" y="535.00" width="219.65" height="263.37" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feGaussianBlur stdDeviation="12"/>
+</filter>
+<linearGradient id="gd" x1="1305.25" y1="650.147" x2="1398.29" y2="676.15" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFDCCB"/>
+<stop offset="1" stop-color="#FAB492"/>
+</linearGradient>
+</defs>
+</svg>

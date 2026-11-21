@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pl" class="js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Style guide - totoo jeżyckie spa</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/onas.css">
+  <link rel="stylesheet" href="css/kontakt.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  <link rel="icon" href="assets/svg/logo.svg" type="image/svg+xml">
+  <style>
+    body { background: #fbfaf8; }
+    .sg-main { max-width: 1120px; margin-inline: auto; padding: 56px var(--gutter) 96px; }
+    .sg-main > header { margin-bottom: 56px; }
+    .sg-main > header h1 { font-family: var(--font-serif); font-size: clamp(36px, 4vw, 56px); }
+    .sg-main > header h1 b { font-weight: 600; }
+    .sg-main > header p { color: var(--ink-soft); margin-top: 16px; max-width: 680px; }
+    .sg-main > header .upd { font-size: 13px; color: var(--ink-mute); }
+    .sg-sec { margin-bottom: 80px; }
+    .sg-sec > h2 {
+      font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em;
+      color: var(--ink-mute); border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 28px;
+    }
+    .sg-sec h3 { font-size: 15px; font-weight: 600; margin: 32px 0 16px; }
+    .sg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+    .sg-swatch { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--white); }
+    .sg-swatch .c { height: 84px; }
+    .sg-swatch .m { padding: 10px 12px; font-size: 12px; line-height: 1.5; }
+    .sg-swatch .m b { display: block; font-weight: 600; }
+    .sg-swatch .m span { color: var(--ink-mute); font-family: ui-monospace, Consolas, monospace; }
+    .sg-type { display: grid; gap: 30px; }
+    .sg-type .row { display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: baseline; }
+    .sg-type .lbl { font-size: 12px; color: var(--ink-mute); line-height: 1.6; }
+    .sg-type .lbl b { display: block; color: var(--ink); font-weight: 600; font-size: 13px; }
+    .sg-scale { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .sg-scale th, .sg-scale td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    .sg-scale th { font-size: 12px; color: var(--ink-mute); font-weight: 600; }
+    .sg-row { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+    .sg-dark { background: var(--green-900); border-radius: 20px; padding: 28px; }
+    .sg-note { font-size: 13px; color: var(--ink-mute); margin-top: 16px; line-height: 1.6; max-width: 760px; }
+    .sg-note code, .sg-anim-list code { font-size: 12px; }
+    /* powiększenie przycisku, żeby było widać blik 1px */
+    .sg-zoom { display: flex; gap: 32px; flex-wrap: wrap; align-items: center; padding: 28px; border-radius: 20px; background: var(--white); border: 1px solid var(--line); }
+    .sg-zoom .z { zoom: 3; }
+    .sg-zoom .cap { font-size: 12px; color: var(--ink-mute); max-width: 200px; line-height: 1.6; }
+    .sg-radius { display: flex; gap: 20px; flex-wrap: wrap; }
+    .sg-radius .box { width: 150px; height: 96px; background: var(--sage-100); display: grid; place-items: center; text-align: center; font-size: 12px; color: var(--green-800); font-weight: 600; line-height: 1.4; }
+    .sg-deco-row { display: flex; gap: 44px; align-items: center; flex-wrap: wrap; padding: 24px 0; }
+    .sg-deco-row .d { display: grid; gap: 12px; justify-items: center; font-size: 12px; color: var(--ink-mute); text-align: center; }
+    .sg-deco-row img { height: 56px; width: auto; }
+    .sg-deco-row .light { height: 120px; width: auto; }
+    .sg-deco-row .bk { height: 72px; width: auto; filter: blur(10px); opacity: .55; }
+    .sg-anim-list { display: grid; gap: 12px; font-size: 14px; line-height: 1.6; }
+    .sg-anim-list b { font-weight: 600; }
+    .sg-form { display: grid; gap: 16px; max-width: 520px; }
+    .sg-team { display: flex; gap: 20px; align-items: center; }
+    .sg-team .team-card { display: contents; }
+    .sg-team .round .btn-more { width: 52px; height: 52px; padding: 0; justify-content: center; border-radius: 50%; }
+    .sg-team .round .btn-more .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    @media (max-width: 720px) { .sg-type .row { grid-template-columns: 1fr; gap: 6px; } .sg-zoom .z { zoom: 2; } }
+  </style>
+</head>
+<body>
+  <main class="sg-main">
+    <header>
+      <h1 class="h-serif"><b>totoo</b> - style guide</h1>
+      <p>Mini design system strony. Wartości pochodzą z tokenów w <code>css/style.css</code> (sekcja <code>:root</code>), a wersja mobilna z <code>css/mobile.css</code> (≤ 760 px). Zmiana tokenu przemalowuje całą stronę. Strona robocza - niepodlinkowana w menu.</p>
+      <p class="upd">Aktualizacja: 20 listopada 2026 (runda 3) - zielony przycisk zawsze z brzoskwiniową ikoną, stałe pole uwag, podkreślone linki w stopce, ciemnozielone boksy, romb podkategorii 17 px, panel boczny 640 px.</p>
+    </header>
+
+    <section class="sg-sec">
+      <h2>Kolory - zieleń</h2>
+      <div class="sg-grid" id="g-green"></div>
+    </section>
+    <section class="sg-sec">
+      <h2>Kolory - szałwia</h2>
+      <div class="sg-grid" id="g-sage"></div>
+    </section>
+    <section class="sg-sec">
+      <h2>Kolory - brzoskwinia i krem</h2>
+      <div class="sg-grid" id="g-peach"></div>
+    </section>
+    <section class="sg-sec">
+      <h2>Kolory - tekst i linie</h2>
+      <div class="sg-grid" id="g-ink"></div>
+    </section>
+
+    <section class="sg-sec">
+      <h2>Gradienty</h2>
+      <div class="sg-grid">
+        <div class="sg-swatch"><div class="c" style="background:var(--grad-peach)"></div><div class="m"><b>grad-peach</b><span>pionowy · peach-50 → peach-300</span></div></div>
+        <div class="sg-swatch"><div class="c" style="background:var(--grad-peach-deep)"></div><div class="m"><b>grad-peach-deep</b><span>hover · #ffd3bc → #f6aa84</span></div></div>
+        <div class="sg-swatch"><div class="c" style="background:var(--grad-green)"></div><div class="m"><b>grad-green</b><span>pionowy · ciemny dół → jaśniejsza góra</span></div></div>
+        <div class="sg-swatch"><div class="c" style="background:var(--grad-deco)"></div><div class="m"><b>grad-deco</b><span>znaczki · peach-100 → peach-200</span></div></div>
+      </div>
+      <p class="sg-note">Gradienty przycisków są w makiecie <b>pionowe</b> (sprawdzone na eksporcie z Figmy) - nie ukośne.</p>
+    </section>
+
+    <section class="sg-sec">
+      <h2>Typografia</h2>
+      <div class="sg-type">
+        <div class="row">
+          <p class="lbl"><b>Hero H1</b>Coconat Demi · desktop 80 / mobile 36/42</p>
+          <p style="font-family:var(--font-serif);font-weight:600;font-size:clamp(36px,5.6vw,80px);line-height:1.12;">Holistyczne podejście</p>
+        </div>
+        <div class="row">
+          <p class="lbl"><b>H1 / Display</b>Coconat Regular + Demi na akcencie<br>desktop 64 / mobile 36/42</p>
+          <h1 class="h-serif">Cześć, miło Cię <b>too</b> gościć!</h1>
+        </div>
+        <div class="row">
+          <p class="lbl"><b>H2 sekcji</b>Coconat Regular + Demi na akcencie<br>desktop 48 / mobile 28/32</p>
+          <h2 class="h-serif">Najchętniej wybierane <b>zabiegi</b></h2>
+        </div>
+        <div class="row">
+          <p class="lbl"><b>Lead</b>DM Sans Light 300 / Medium 500<br>desktop 20–32 / mobile 20/26</p>
+          <p class="lead">Od 2017 roku dbamy o naszych pacjentów, świadcząc zabiegi z dziedzin <b>kosmetologii, masażu i fizjoterapii</b>.</p>
+        </div>
+        <div class="row">
+          <p class="lbl"><b>Tekst</b>DM Sans Regular 400 · desktop 16–18 / mobile 16/22, −1%</p>
+          <p>Znajdziesz u nas wszechstronną opiekę, rodzinną atmosferę i dobrą energię. Zapraszamy do pracowni totoo - kameralnego, miejskiego spa.</p>
+        </div>
+        <div class="row">
+          <p class="lbl"><b>Drobny</b>DM Sans Regular · 14/20 (stopka, cennik, karty)</p>
+          <p style="font-size:14px;line-height:20px;">Dołącz do naszej listy mailingowej, by dowiadywać się o nowościach i ciekawych ofertach w totoo.</p>
+        </div>
+      </div>
+
+      <h3>Skala mobilna (makiety 360 px)</h3>
+      <table class="sg-scale">
+        <tr><th>Rola</th><th>Krój</th><th>Rozmiar / interlinia</th></tr>
+        <tr><td>Hero, powitanie</td><td>Coconat Demi / Regular</td><td>36 / 42</td></tr>
+        <tr><td>Nagłówki sekcji i podstron</td><td>Coconat Regular + Demi</td><td>28 / 32</td></tr>
+        <tr><td>Lead podstron</td><td>DM Sans Light + Medium</td><td>20 / 26</td></tr>
+        <tr><td>Tekst</td><td>DM Sans Regular</td><td>16 / 22, odstępy −1%</td></tr>
+        <tr><td>Drobny, cennik, stopka</td><td>DM Sans Regular / SemiBold</td><td>14 / 20</td></tr>
+        <tr><td>Tytuły akordeonu Oferty</td><td>DM Sans Medium</td><td>20 / 26</td></tr>
+      </table>
+      <p class="sg-note">Krój nagłówków: <b>Coconat</b> (Regular 400 / Demi 600 / Bold 700, pliki lokalne OTF). Tekst: <b>DM Sans</b> (Google Fonts, 300–700). Odstępy w makiecie są mierzone od wersalików do linii bazowej - na stronie odpowiada temu <code>text-box: trim-both cap alphabetic</code>.</p>
+    </section>
+
+    <section class="sg-sec">
+      <h2>Przyciski</h2>
+      <div class="sg-row" style="margin-bottom:20px;">
+        <a class="btn btn-peach" href="#">Szczegóły <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg></a>
+        <a class="btn btn-peach" href="#">Poznaj nas <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a>
+        <a class="btn btn-green" href="#">Dowiedz się, kim jesteśmy <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f8b797" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg></a>
+        <a class="btn btn-dark" href="#">Zapisz się <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></a>
+      </div>
+      <div class="sg-dark sg-row" style="margin-bottom:20px;">
+        <a class="btn btn-peach" href="#">Poznaj nas <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a>
+        <a class="btn btn-outline" href="#">Umów wizytę <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+      </div>
+      <div class="sg-team sg-row">
+        <div class="team-card"><button class="btn-more" type="button"><span class="label">Dowiedz się więcej</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg></button></div>
+        <div class="team-card round"><button class="btn-more" type="button" aria-label="Dowiedz się więcej"><span class="label">Dowiedz się więcej</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg></button></div>
+      </div>
+
+      <h3>Przycisk brzoskwiniowy - blik 1px (powiększenie ×3)</h3>
+      <div class="sg-zoom">
+        <div class="z"><a class="btn btn-peach" href="#">Szczegóły <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg></a></div>
+        <p class="cap">Jasny cień 1 px w prawo i w dół, bez rozmycia (<code>--peach-glint</code>), pod <b>tekstem i ikoną</b> - na każdym brzoskwiniowym przycisku.</p>
+      </div>
+      <p class="sg-note"><b>Brzoskwiniowy</b> (<code>.btn-peach</code>, przyciski zespołu): gradient pionowy, blik 1 px pod tekstem i ikoną, bez cienia pod przyciskiem i bez uniesienia. Hover: gradient płynnie pogłębia się do <code>grad-peach-deep</code>, ikona przesuwa się o 5 px (strzałka w dół - w dół o 3 px).<br>
+      <b>Zielony</b> (<code>.btn-green</code> = <code>.btn-dark</code>, jedna receptura): gradient <code>grad-green</code>, biały tekst, ikona zawsze brzoskwiniowa <code>peach-300</code> - tak samo w newsletterze, formularzu i na stronie głównej.<br>
+      <b>Zielony / obrys:</b> pastylka <code>--r-pill: 54px</code>, DM Sans 600 16 px, wysokość 52 px (mobile: pola i przyciski formularzy 44 px). Hover: uniesienie −2 px + miękki cień, ikona przesuwa się o 3 px.</p>
+    </section>
+
+    <section class="sg-sec">
+      <h2>Formularz</h2>
+      <form class="sg-form kontakt-form" novalidate>
+        <input type="text" placeholder="Twoje imię" aria-label="Twoje imię">
+        <div class="select-wrap">
+          <select aria-label="Preferowana pora">
+            <option value="" selected disabled hidden>Preferowana pora</option>
+            <option>Rano (10:00–13:00)</option>
+            <option>Popołudnie (13:00–17:00)</option>
+            <option>Wieczór (17:00–20:00)</option>
+          </select>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <textarea placeholder="Dodatkowe uwagi" aria-label="Dodatkowe uwagi"></textarea>
+        <button class="btn btn-dark" type="button">Wyślij wiadomość <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg></button>
+      </form>
+      <p class="sg-note">Pola: obrys 1 px <code>sage-400</code>, pastylka 54 px, fokus - obrys <code>green-800</code>. Select na komputerze ma własną, zaokrągloną listę (r 24, pozycje r 16, podświetlenie <code>cream</code>, obsługa klawiatury); na telefonie zostaje systemowy wybierak. Pole uwag ma stałą wysokość 96 px - bez uchwytu do rozciągania i bez paska przewijania, dłuższy tekst chowa się w polu.</p>
+    </section>
+
+    <section class="sg-sec">
+      <h2>Zaokrąglenia</h2>
+      <div class="sg-radius">
+        <div class="box" style="border-radius:32px">r-photo<br>32 desktop / 12 mobile</div>
+        <div class="box" style="border-radius:24px">karty, listy<br>24</div>
+        <div class="box" style="border-radius:12px">zdjęcia podstron<br>12 (mobile 8)</div>
+        <div class="box" style="border-radius:54px">r-pill<br>54</div>
+      </div>
+    </section>
+
+    <section class="sg-sec">
+      <h2>Ozdobniki</h2>
+      <div class="sg-deco-row">
+        <div class="d"><span class="deco-dot" style="display:block;width:40px"></span><span>diament (dot)<br>zawsze podłużny 40:54</span></div>
+        <div class="d"><img src="assets/svg/deco-star.svg" alt=""><span>gwiazdka</span></div>
+        <div class="d"><img src="assets/svg/deco-sparkle.svg" alt=""><span>diament SVG</span></div>
+        <div class="d"><img src="assets/svg/deco-glow-diamond.svg" alt=""><span>rozmyty diament<br>(powitanie)</span></div>
+        <div class="d"><img class="light" src="assets/img/blob_corner.webp" alt=""><span>światło (blob z makiety)<br>skalowane i obracane</span></div>
+        <div class="d"><img class="bk" src="assets/svg/deco-sparkle.svg" alt=""><span>bokeh - pierwszy plan</span></div>
+      </div>
+      <p class="sg-note"><b>Zasady:</b> ozdobniki zawsze <b>prosto</b> - bez obrotów i przechyleń, także w animacji (tylko puls skali, światło i parallax). <b>Światła</b> wyłącznie jako akcent: róg pod paskiem nawigacji, lewy dół stopki, narożnik zdjęcia lub bloku. <b>Znaczki</b> tylko w marginesach poza kolumną treści - nigdy na tekście (sprawdza to <code>tools/deco_text_audit.js</code>), w trzech planach: daleki (mały, lekko rozmyty), środkowy (ostry, migocze), bliski (duży, mocno rozmyty, parallax szybszy niż strona). Poniżej 1300 px znaczki z marginesów znikają. Równoboczne romby nie występują.</p>
+    </section>
+
+    <section class="sg-sec">
+      <h2>Ruch</h2>
+      <div class="sg-anim-list">
+        <p><b>Wejścia przy scrollu:</b> segment (<code>[data-seq]</code>) odsłania się w całości, gdy jego góra wejdzie w kadr - elementy w porządku czytania, z hierarchią: nagłówek słowo po słowie (<code>rv-words</code>), lead z mgły (<code>rv-mist</code>), zdjęcia kurtyną (<code>rv-wipe</code>), wiersze list (<code>rv-row</code>).</p>
+        <p><b>Akordeony:</b> kliknięty nagłówek zostaje pod kursorem, także gdy zwija się pozycja powyżej; nisko kliknięty płynnie podjeżdża w górę.</p>
+        <p><b>Karuzela:</b> dojazd krytycznie tłumioną sprężyną; hover - 100% krycia, uniesienie, pochylenie za kursorem, żywa flara światła, podkreślenie podpisu.</p>
+        <p><b>Zdjęcie „Zapraszamy”:</b> wyostrzenie z mgły (blur + lekki zoom, 2,6 s).</p>
+        <p><b>Hover zdjęć:</b> scale 1.04–1.07, 0.7–1.1 s.</p>
+        <p><b>Layout:</b> treść <code>1120px</code>, gutter desktop <code>clamp(20px, 4.4vw, 40px)</code> / mobile 20 px, pasek nawigacji 88 px / mobile 82 px.</p>
+        <p><b>Dostępność:</b> wszystkie animacje wyłączane przez <code>prefers-reduced-motion</code>.</p>
+      </div>
+    </section>
+
+    <p><a class="btn btn-green" href="index.html">← Wróć na stronę</a></p>
+  </main>
+
+  <script>
+    const groups = {
+      'g-green': [['green-950','#05190e'],['green-900','#051e11'],['green-800','#043a25'],['green-700','#0d6b47']],
+      'g-sage': [['sage-400','#7ba193'],['sage-300','#b2c9c0'],['sage-200','#b3ccbc'],['sage-100','#c0d1cb']],
+      'g-peach': [['peach-500','#e59d70'],['peach-450','#ea9b78'],['peach-300','#f8b797'],['peach-200','#fab492'],['peach-100','#ffdccb'],['peach-50','#ffe0d0'],['cream','#fdefe8'],['peach-glint','#ffffff']],
+      'g-ink': [['ink','#043a25'],['ink-soft','#49564f'],['ink-mute','#616b66'],['line','#dfdfdf'],['line-green','#c0d1cb'],['white','#ffffff']],
+    };
+    for (const [id, colors] of Object.entries(groups)) {
+      document.getElementById(id).innerHTML = colors.map(([name, hex]) =>
+        `<div class="sg-swatch"><div class="c" style="background:var(--${name})${hex==='#ffffff'?';border-bottom:1px solid var(--line)':''}"></div>
+         <div class="m"><b>--${name}</b><span>${hex}</span></div></div>`).join('');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

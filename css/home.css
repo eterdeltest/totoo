@@ -1,0 +1,482 @@
+/* ================================================================
+   totoo — style strony głównej
+   ================================================================ */
+
+/* ---------- HERO ---------- */
+.hero {
+  position: relative; min-height: var(--hero-h);
+  display: grid; place-items: center;
+  background: var(--green-900);
+  overflow: hidden; color: var(--white);
+  /* --hero-h: wysokość kadru = pełna wysokość okna (bez „paska” następnej
+     sekcji pod spodem), w granicach 560–1400px. Powyżej 1400px (monitory
+     pionowe, 4K bez skalowania) pod hero widać już duży, czytelny fragment
+     kolejnej sekcji, a nie wąski pasek.
+     --hero-iw: szerokość zdjęcia (1928×1085). Trzy zakresy, przejścia ciągłe:
+       · do ok. 1950px okna: skala z makiety (121,8% wysokości kadru), boki przycięte,
+       · 1950–2400px: zdjęcie rośnie razem z oknem i wypełnia je w całości,
+       · powyżej 2400px: zdjęcie zostaje na środku, a boki wygaszają się w zieleń. */
+  --hero-h: clamp(560px, 100svh, 1400px);
+  --hero-iw: clamp(var(--hero-h) * 2.1643, 100vw, 2400px);
+}
+/* Spad jak w druku: .bg wystaje 32px poza kadr (padding), żeby parallax za
+   kursorem nie odsłaniał tła; zdjęcie jest pozycjonowane względem KADRU
+   (background-origin: content-box), więc kadr zgadza się z makietą:
+   obraz 1928×1085 @(-88,-185) w kadrze 1440×900 (+1% zoomu na ruch parallaxu). */
+.hero .bg {
+  position: absolute; inset: -32px; padding: 32px;
+  background: url('../assets/img/img_b66de11346d8.jpg') no-repeat;
+  background-origin: content-box; background-clip: border-box;
+  background-size: var(--hero-iw) auto;
+  /* X: max(18%, 50%) — kadr z makiety (18%), dopóki zdjęcie jest szersze niż
+     okno; gdy okno jest szersze, zdjęcie staje na środku.
+     Y: usta zostają na tej samej wysokości kadru (19%) przy każdej skali
+     zdjęcia (leżą na 32,8% jego wysokości). */
+  background-position: max(18%, 50%) calc(var(--hero-h) * .19 - var(--hero-iw) * .18459);
+  background-color: var(--green-900);
+  will-change: transform;
+  /* Wygaszenie boków: --g = wolne miejsce z każdej strony zdjęcia (ujemne,
+     gdy zdjęcie jest szersze niż kadr); wygaszenie rośnie razem z nim
+     (do 420px), więc nie ma twardej krawędzi ani skoku przy zmianie okna. */
+  --g: calc((100% - 64px - var(--hero-iw)) / 2);
+  --m0: max(0px, var(--g) + 32px);
+  --fade: min(max(0px, var(--g)) * 4, 420px);
+  -webkit-mask-image: linear-gradient(to right, transparent var(--m0), #000 calc(var(--m0) + var(--fade)), #000 calc(100% - var(--m0) - var(--fade)), transparent calc(100% - var(--m0)));
+          mask-image: linear-gradient(to right, transparent var(--m0), #000 calc(var(--m0) + var(--fade)), #000 calc(100% - var(--m0) - var(--fade)), transparent calc(100% - var(--m0)));
+}
+/* Zasłona z makiety: zdjęcie leży na zieleni tła z kryciem ok. 80%
+   (zmierzone z eksportu makiety: równe 20% #051e11 na całym kadrze) */
+.hero .bg::before { content: ''; position: absolute; inset: 0; background: rgba(5,30,17,.2); pointer-events: none; }
+/* Nakładka z makiety (Gradient_Bottom 624:8): ciemna elipsa z lewego dołu,
+   która gasi kapelusz i tło pod tekstem. Przypięta do ZDJĘCIA, nie do okna:
+   środek w (9,75%; 98,6%) zdjęcia, promienie 36,5% szer. × 75% wys., obrót 20,4°. */
+.hero .bg::after {
+  content: ''; position: absolute; pointer-events: none;
+  --hw: calc(100% - 64px);                                                  /* szerokość kadru */
+  --ix: max((var(--hw) - var(--hero-iw)) * .18, (var(--hw) - var(--hero-iw)) * .5);   /* lewa krawędź zdjęcia w kadrze */
+  width: calc(var(--hero-iw) * .73); height: calc(var(--hero-iw) * .84414);
+  left: calc(32px + var(--ix) + var(--hero-iw) * -.2675);
+  top: calc(32px + var(--hero-h) * .19 - var(--hero-iw) * .05178);
+  background: radial-gradient(closest-side, #051e11 0, rgba(5,30,17,.76) 50%, rgba(5,30,17,0) 100%);
+  transform: rotate(20.4deg);
+}
+@keyframes hero-zoom { from { transform: scale(1.08); } to { transform: scale(1); } }
+
+/* Wejście hero: „Mgła" — obraz wyłania się z mocnego rozmycia, dryfując
+   (wariant wybrany przez Otisa, podkręcony) */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hero-drift {
+    from { transform: scale(1.22) translateX(-48px); filter: blur(22px) saturate(.7); opacity: .2; }
+    60%  { opacity: 1; }
+    to   { transform: scale(1) translateX(0); filter: blur(0) saturate(1); opacity: 1; }
+  }
+  .hero .bg { animation: hero-drift 3.4s cubic-bezier(.22,.8,.3,1) both; }
+}
+/* Gradienty z makiety: góra 153px @50%, dół 243px @20% */
+.hero::before {
+  content: ''; position: absolute; inset: 0 0 auto 0; height: 153px; z-index: 1;
+  background: linear-gradient(to bottom, rgba(5,25,14,.5), transparent);
+}
+.hero::after {
+  content: ''; position: absolute; inset: auto 0 0 0; height: 243px; z-index: 1;
+  background: linear-gradient(to top, rgba(5,30,17,.2), transparent);
+}
+.hero .radial { display: none; }
+.hero .content {
+  position: relative; z-index: 2; text-align: center;
+  display: grid; gap: clamp(28px, 4vh, 48px); justify-items: center;
+  padding: 120px var(--gutter) 80px;
+}
+.hero h1 { color: var(--white); font-weight: 600; font-size: clamp(42px, 5.6vw, 80px); }
+@media (prefers-reduced-motion: no-preference) {
+  .hero h1.rv { filter: blur(8px); transition: opacity .9s ease, transform .9s cubic-bezier(.25,.6,.25,1), filter 1.1s ease; }
+  .hero h1.rv.in { filter: blur(0); }
+}
+.hero .sub { color: var(--sage-300); font-size: clamp(17px, 1.6vw, 22px); line-height: 1.55; max-width: 640px; }
+.hero .buttons { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+/* Wskaźnik przewijania: cienka linia, po której zjeżdża mały diament.
+   Znika po pierwszym ruchu strony; klik przewija do powitania. */
+.hero .scroll-cue {
+  position: absolute; left: 50%; bottom: 22px; z-index: 3; translate: -50% 0;
+  width: 44px; height: 60px; display: grid; place-items: center;
+  opacity: 0; animation: cue-in 1s ease 2.6s forwards;
+  transition: opacity .45s ease, visibility 0s .45s;
+}
+.hero .scroll-cue span { position: relative; display: block; width: 1px; height: 52px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.34)); }
+.hero .scroll-cue span::after {
+  content: ''; position: absolute; left: -3px; top: 0; width: 7px; height: 9px;
+  background: var(--peach-300); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  animation: cue-drop 2.6s cubic-bezier(.6, 0, .3, 1) infinite;
+}
+.hero.is-scrolled .scroll-cue { opacity: 0 !important; visibility: hidden; animation: none; }
+@keyframes cue-in { to { opacity: 1; } }
+@keyframes cue-drop {
+  0% { transform: translateY(-4px); opacity: 0; }
+  25% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { transform: translateY(48px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero .scroll-cue { animation: none; opacity: 1; }
+  .hero .scroll-cue span::after { animation: none; top: 22px; }
+}
+/* niskie okna: przyciski są blisko dolnej krawędzi — wskaźnik by się z nimi zlewał */
+@media (max-height: 640px), (max-width: 920px) { .hero .scroll-cue { display: none; } }
+
+/* ---------- ABOUT INTRO ----------
+   Bez overflow:hidden (kadr zdjęcia jest docięty w samym assecie) —
+   dzięki temu poświaty ozdobników tnie dopiero krawędź okna, nie sekcji. */
+.about-intro { background: var(--white); padding: clamp(64px, 8.33vw, 120px) 0 clamp(64px, 8vw, 110px); }
+.about-intro .grid {
+  display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(40px, 8vw, 130px);
+  align-items: start; position: relative; z-index: 1;
+}
+.about-intro h1 { margin-bottom: clamp(36px, 5vw, 70px); }
+.about-intro .photo { border-radius: var(--r-photo); overflow: hidden; background: var(--sage-200); }
+.about-intro .photo img { width: 100%; height: 100%; object-fit: cover; }
+.about-intro .photo-l { aspect-ratio: 672 / 400; margin-left: clamp(-120px, -8vw, -24px); }
+/* Górne zdjęcie wg makiety: widoczny kadr 527×341 dobity do samej góry
+   sekcji (bez paddingu), wystaje ~79px poza prawą krawędź treści
+   (NIE do krawędzi ekranu); górne rogi ścięte kadrem sekcji */
+.about-intro .photo-r {
+  aspect-ratio: 527 / 341; background: #739b80;
+  margin-top: calc(-1 * clamp(64px, 8.33vw, 120px));
+  margin-right: clamp(-79px, -5.5vw, -24px);
+  border-radius: 0 0 var(--r-photo) var(--r-photo);
+}
+.about-intro .col-r { display: grid; gap: clamp(32px, 4vw, 48px); align-content: start; }
+.about-intro .col-r .text { display: grid; gap: 24px; font-size: clamp(17px, 1.4vw, 20px); letter-spacing: -0.01em; }
+.about-intro .col-r .text .accent { font-weight: 500; }
+/* Poświaty rombów wypieczone w Figmie (deco_soft.png, 694px z zapasem
+   na blur) — pozycje tak, by środek wypadał jak w makiecie */
+.about-intro .deco-l, .about-intro .deco-r { width: 694px; --plx: 0.12; }
+.about-intro .deco-l { left: -210px; top: -51px; }
+.about-intro .deco-r { right: -180px; top: -61px; --plx: 0.17; }
+/* Rozmyty romb (z grupy Stars w makiecie). Wyjęty z deco-stars.svg, bo
+   tam wystawał poza viewBox i ramka SVG ucinała go pionową krawędzią.
+   Teraz: osobny SVG z zapasem na blur, kotwiczony do KOLUMNY treści
+   (pod przyciskiem), a odsunięcie w prawo ograniczone tak, by cały box
+   zawsze kończył się ≥8px przed krawędzią okna — przy każdej szerokości.
+   Bez dryfu w poziomie (tylko parallax pionowy + oddech skalą w dół). */
+.about-intro .col-r { position: relative; }
+.about-intro .glow-diamond {
+  width: 227px; z-index: -1; --plx: 0.001;
+  top: calc(100% - 28px);
+  right: calc(-1 * min(133px, max(var(--gutter), (var(--vpw, 100vw) - 1120px) / 2) - 8px));
+}
+/* węższe okna: za mało miejsca między przyciskiem a panelem oferty */
+@media (max-width: 1300px) { .about-intro .glow-diamond { display: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .about-intro .glow-diamond.deco-in { animation: deco-twinkle 9s ease-in-out 1.5s infinite; }
+}
+.about-intro .stars {
+  left: 50%; top: 20px; width: min(1435px, 105vw);
+  transform: translateX(-50%); opacity: .9;
+}
+
+/* Grupa gwiazdek skaluje się z szerokością okna, a kolumna tekstu nie — poniżej
+   ok. 1420px mała iskra z prawej zbliżała się do akapitu (audyt:
+   tools/stars_text_audit.js). Tam zostają same poświaty. */
+@media (max-width: 1420px) { .about-intro .stars { display: none; } }
+
+/* ---------- CATEGORIES ---------- */
+.categories { padding: clamp(40px, 5vw, 72px) 0 clamp(28px, 3.5vw, 48px); }
+.categories .panel-wrap {
+  position: relative; margin-inline: auto; max-width: 1360px;
+}
+@media (max-width: 1440px) { .categories .panel-wrap { margin-inline: clamp(12px, 2.8vw, 40px); } }
+.categories .panel {
+  position: relative;
+  border-radius: var(--r-photo); background: #06281a;
+  padding: clamp(56px, 7vw, 100px) var(--gutter) clamp(64px, 8vw, 110px);
+  overflow: hidden; color: var(--white);
+}
+.categories .panel .bg-img {
+  position: absolute; inset: 0; opacity: .26;
+  background: url('../assets/img/img_62f335c04b3a.jpg') center 65% / cover no-repeat;
+  filter: brightness(.42) saturate(.5) hue-rotate(12deg);
+}
+/* Tło panelu robi powolny zjazd zoomu po wejściu sekcji */
+@media (prefers-reduced-motion: no-preference) {
+  .categories .panel .bg-img { transform: scale(1.14); transition: transform 2.4s cubic-bezier(.22,.8,.3,1); }
+  .categories .panel-wrap.in .bg-img, .categories .panel-wrap:not(.rv-big) .bg-img { transform: scale(1); }
+  /* Linki wyłaniają się z lekkiego rozmycia */
+  .categories .list a.rv { filter: blur(7px); transition: opacity .8s ease, transform .8s cubic-bezier(.25,.6,.25,1), filter .9s ease, color .3s ease; }
+  .categories .list a.rv.in { filter: blur(0); }
+}
+.categories .panel .inner { position: relative; z-index: 1; }
+.categories h2 { color: var(--white); }
+.categories .section-head .sub { color: var(--sage-300); }
+.categories .list { margin-top: clamp(40px, 5vw, 60px); display: grid; gap: clamp(26px, 3.4vw, 42px); justify-items: center; }
+.categories .list a {
+  display: inline-block; text-align: center;
+  font-family: var(--font-serif); font-size: clamp(28px, 4.4vw, 64px); line-height: 1.12;
+  color: var(--white); padding: 0 0 9px; position: relative;
+  transition: color .35s ease;
+}
+/* Podkreślenie 1:1 z makietą: 2px, #f8b797, szerokość równa tekstowi,
+   8px pod literami. Na hoverze rośnie tylko wysokość. */
+.categories .list a::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: var(--peach-300); transform-origin: bottom;
+  transition: transform .35s ease;
+}
+.categories .list a:hover { color: var(--peach-300); }
+.categories .list a:hover::after { transform: scaleY(2); }
+.categories .panel-wrap > .deco { z-index: 3; }
+.categories .star-tl { left: 20%; top: 0; width: 42px; transform: translateY(-50%); }
+.categories .star-br { right: 11%; bottom: 0; width: 72px; transform: translateY(50%); }
+/* Węższe okna (tablet, małe laptopy): teksty zajmują większą część szerokości,
+   więc znaczki panelu schodzą do samych rogów, maleją i nie wędrują z parallaxem */
+@media (max-width: 1100px) {
+  .categories .star-tl { left: 5%; width: 30px; --plx: 0.001; }
+  .categories .star-br { right: 4%; width: 44px; --plx: 0.001; }
+}
+
+/* ---------- BESTSELLERS ---------- */
+.bestsellers { padding: clamp(32px, 3.5vw, 48px) 0 clamp(48px, 5vw, 64px); overflow: hidden; }
+/* Blob BEZ filter:blur — jego poświata wychodziła poza box i overflow:hidden
+   sekcji ucinał ją prostą linią na górze. Miękkość jest w samym gradiencie,
+   a box (z zapasem na blob-breathe: scale 1.08 + translate) mieści się
+   w całości w sekcji. Lewa strona gaśnie maską do zera PRZED krawędzią okna. */
+.bestsellers .blob {
+  left: -200px; top: 76px; width: 720px; height: 600px; filter: none; opacity: .85; --plx: .05;
+  background: radial-gradient(closest-side, #ffeeca 0%, rgba(239, 209, 188, .78) 38%, rgba(239, 209, 188, .32) 70%, rgba(239, 209, 188, 0) 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 205px, #000 400px);
+  mask-image: linear-gradient(to right, transparent 205px, #000 400px);
+}
+.bestsellers .section-head { position: relative; z-index: 1; }
+.carousel { position: relative; margin-top: clamp(28px, 3.5vw, 48px); }
+.carousel .track {
+  position: relative;  /* offsetLeft kafelków liczony w układzie toru */
+  display: flex; gap: 32px; align-items: flex-start;
+  overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none;
+  padding: 12px calc(50vw - 200px) 72px; scroll-padding-inline: calc(50vw - 200px);
+}
+.carousel .track.no-snap { scroll-snap-type: none; }
+.carousel .track::-webkit-scrollbar { display: none; }
+.carousel .item {
+  flex: none; scroll-snap-align: center; width: 320px; cursor: pointer;
+  /* wygaszenie bocznych kafelków ustawia JS (--fade); hover = zawsze 100% */
+  opacity: var(--fade, 1); transition: opacity .45s ease;
+}
+.carousel .item-in { display: grid; gap: 22px; will-change: transform; transform-origin: top center; }
+.carousel .item:not(:has(.item-in)) { display: grid; gap: 22px; }  /* bez JS */
+.carousel.is-moving .item { transition: none; }
+.carousel .item.is-hover { opacity: 1; }
+/* Hover: kafelek „łapie światło” — kadr unosi się i lekko pochyla za
+   kursorem, po zdjęciu przesuwa się miękki refleks, podpis dostaje
+   rysowane podkreślenie (jak linki oferty). */
+.carousel .item .ph {
+  position: relative; border-radius: 16px; overflow: hidden; height: 420px;
+  /* bez tła: przy pochyleniu 3D szare tło prześwitywało 1px pod zdjęciem */
+  background: transparent; -webkit-mask-image: -webkit-radial-gradient(white, black);
+  transform: perspective(900px) rotateX(calc(var(--rx, 0) * 1deg)) rotateY(calc(var(--ry, 0) * 1deg));
+  transition: transform .7s cubic-bezier(.2,.8,.2,1), box-shadow .6s ease;
+}
+.carousel .item.is-hover .ph {
+  transform: perspective(900px) translateY(-8px) rotateX(calc(var(--rx, 0) * 1deg)) rotateY(calc(var(--ry, 0) * 1deg));
+  box-shadow: 0 26px 38px -24px rgba(5, 30, 17, .42);
+}
+.carousel .item .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s cubic-bezier(.2,.8,.2,1); }
+.carousel .item.is-hover .ph img { transform: scale(1.07); }
+.carousel .item .cap {
+  font-size: clamp(24px, 2.2vw, 32px); font-weight: 300; line-height: 1;
+  justify-self: start; position: relative;
+}
+.carousel .item .cap::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -10px; height: 2px;
+  background: var(--peach-300); transform: scaleX(0); transform-origin: left;
+  transition: transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.carousel .item.is-hover .cap::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .carousel .item .ph, .carousel .item.is-hover .ph { transform: none; }
+}
+.carousel .arrow {
+  position: absolute; top: 42%; z-index: 2;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--white); color: var(--peach-500);
+  display: grid; place-items: center;
+  box-shadow: 0 14px 22px rgba(0, 0, 0, .18);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.carousel .arrow:hover { transform: scale(1.08); box-shadow: 0 16px 28px rgba(0, 0, 0, .24); }
+.carousel .arrow-l { left: clamp(16px, 6vw, 103px); }
+.carousel .arrow-r { right: clamp(16px, 6vw, 103px); }
+
+/* ---------- EXTRAS (statystyki) ---------- */
+.extras { padding: clamp(40px, 4.5vw, 64px) 0; }
+.extras .grid {
+  /* minmax(0, …): szeroki nagłówek NIE rozpycha kolumny, tylko nachodzi na zdjęcie */
+  display: grid; grid-template-columns: minmax(0, 449fr) minmax(0, 593fr); gap: clamp(28px, 3.5vw, 48px);
+  align-items: start; position: relative;
+}
+.extras .ellipse {
+  position: absolute; left: -240px; top: -160px; width: 860px; height: 860px; pointer-events: none;
+  /* dawniej: koło 459px + blur 90 — teraz ta sama miękkość wypieczona w gradiencie */
+  background: radial-gradient(closest-side, rgba(253, 204, 180, .62) 0%, rgba(253, 204, 180, .42) 34%, rgba(253, 204, 180, .14) 66%, rgba(253, 204, 180, 0) 100%);
+}
+.extras .col-l { position: relative; z-index: 1; padding-top: clamp(12px, 2vw, 32px); }
+/* Nagłówek celowo wybiega poza kolumnę i nachodzi na zdjęcie (jak w makiecie) */
+.extras h2 { position: relative; z-index: 2; width: max-content; max-width: 92vw; margin-bottom: clamp(24px, 3vw, 40px); }
+.extras .stats { display: grid; max-width: 449px; }
+.extras .stat {
+  display: flex; align-items: center; gap: 24px;
+  padding: 16px 0; border-bottom: 1px solid var(--line-green);
+}
+.extras .stat:last-child { border-bottom: 0; }
+.extras .stat .num {
+  font-family: var(--font-serif); font-weight: 600; font-size: clamp(36px, 3.4vw, 48px);
+  flex: none; width: clamp(110px, 10vw, 140px);
+}
+.extras .stat .desc { font-size: 18px; line-height: 1.4; letter-spacing: -0.01em; }
+.extras .stat .desc strong { font-weight: 600; }
+.extras .photo {
+  position: relative; border-radius: var(--r-photo); overflow: hidden;
+  aspect-ratio: 593 / 523; background: var(--sage-200);
+}
+/* Zdjęcie to gotowy kadr wyeksportowany z makiety (crop_extras.jpg) */
+.extras .photo img { width: 100%; height: 100%; object-fit: cover; }
+.extras .photo-wrap { position: relative; z-index: 0; }
+/* Ozdobniki dookoła zdjęcia, z dala od nachodzącego nagłówka:
+   romb nad prawą częścią zdjęcia, iskra przy prawym dolnym rogu */
+.extras .photo-wrap .deco-dot { top: -10px; left: 72%; width: 24px; height: 24px; z-index: 2; }
+.extras .photo-wrap .sparkle-br { right: -16px; bottom: -20px; width: 44px; z-index: 2; }
+
+/* ---------- VOUCHERS BANNER ----------
+   1:1 z makietą: baner 1122×323, obraz w skali 128,5% szerokości banera,
+   przesunięty w lewo (koperty kończą się tuż za prawą krawędzią),
+   dosunięty do góry. Zdjęcie ma zapieczone zielone tło — zero gradientów. */
+.vouchers { padding: clamp(40px, 4.5vw, 64px) 0; }
+.vouchers .banner {
+  position: relative; border-radius: var(--r-photo); overflow: hidden;
+  /* crop_banner.jpg = dokładnie widoczny kadr z makiety (1400×403, 3.47:1) */
+  background: #0c3e27 url('../assets/img/crop_banner.jpg') center / cover no-repeat;
+  padding: clamp(40px, 4.4vw, 64px);
+  min-height: 323px; display: grid; align-items: center;
+}
+.vouchers .content { position: relative; z-index: 1; max-width: 600px; display: grid; gap: clamp(20px, 2.5vw, 36px); justify-items: start; }
+.vouchers h2 { color: var(--white); }
+.vouchers .sub { color: var(--sage-300); font-size: clamp(16px, 1.4vw, 20px); letter-spacing: -0.01em; }
+
+/* ---------- INSTAGRAM ---------- */
+.instagram { padding: clamp(32px, 3.5vw, 44px) 0 0; overflow: hidden; }
+.instagram .section-head { position: relative; z-index: 3; }
+.instagram .section-head .handle { color: var(--peach-450); font-weight: 600; }
+.instagram .section-head .handle:hover { text-decoration: underline; }
+/* Klisza wg makiety: proste zdjęcia 282×350 + biała nakładka z łukowym
+   wycięciem (deco-arc.svg, 1568×484 @(-64,-67) względem paska 1440×350).
+   Łuk jest rozciągany na całą szerokość okna, a jego WYSOKOŚĆ trzyma się
+   wysokości paska (138,3%) — na szerokich monitorach krzywizna jest
+   łagodniejsza, ale zawsze domyka pasek od góry i od dołu. */
+.instagram .strip-wrap { position: relative; margin-top: clamp(12px, 1.6vw, 22px); }
+.instagram .clip { overflow: hidden; }
+.instagram .arc {
+  position: absolute; z-index: 2; pointer-events: none;
+  left: -4.45%; width: 108.9%; top: -19.2%; height: 138.3%; max-width: none;
+}
+.instagram { padding-bottom: clamp(32px, 3.8vw, 55px); }
+/* Klisza: zapętlony, płynnie sunący slider. JS dokłada tyle zestawów, żeby
+   pasek zawsze był dłuższy niż okno + jeden zestaw, i przesuwa go dokładnie
+   o szerokość jednego zestawu (--ig-shift) — pętla nie ma końca przy żadnej
+   szerokości monitora. Pauza po najechaniu. */
+.instagram .strip { display: flex; width: max-content; }
+.instagram .set { display: flex; gap: 8px; padding-right: 8px; flex: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .instagram .strip { animation: ig-scroll 40s linear infinite; }
+  .instagram .strip-wrap:hover .strip { animation-play-state: paused; }
+  @keyframes ig-scroll { to { transform: translateX(var(--ig-shift, -33.3333%)); } }
+}
+.instagram .strip a {
+  flex: none; width: clamp(220px, 19.6vw, 282px); aspect-ratio: 282 / 350;
+  overflow: hidden; background: #9f9c9c; position: relative;
+}
+.instagram .strip img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s ease, filter .4s ease; }
+.instagram .strip a:hover img { transform: scale(1.06); }
+
+/* ================================================================
+   HOME — mobile
+   ================================================================ */
+@media (max-width: 920px) {
+  .hero { min-height: 100svh; }
+  .hero .bg { background-size: auto 121.8%; background-position: 30% center; -webkit-mask-image: none; mask-image: none; }
+  .hero .bg::after { display: none; }
+  .hero .bg::before { display: none; }
+  .hero::after { height: 55%; background: linear-gradient(to top, rgba(5,30,17,.92) 20%, transparent); }
+  .hero h1 { font-size: clamp(30px, 8.6vw, 42px); }
+  /* Buttony jeden pod drugim, szerokie (jak w makiecie mobile) */
+  .hero .buttons { flex-direction: column; align-items: stretch; width: min(340px, 100%); }
+
+  .about-intro .grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-intro .photo-l { display: none; }
+  /* Makieta mobile: nagłówek wyśrodkowany, zdjęcie full-bleed bez radiusów,
+     button na całą szerokość */
+  .about-intro h1 { margin-bottom: 0; text-align: center; }
+  .about-intro .photo-r {
+    margin-top: 0; aspect-ratio: 16 / 10;
+    margin-inline: calc(-1 * var(--gutter));
+    border-radius: 0;
+  }
+  .about-intro .col-r .btn { width: 100%; }
+  .about-intro .deco-l, .about-intro .deco-r { width: 420px; }
+  .about-intro .glow-diamond { display: none; }
+
+  .categories .panel { margin-inline: 12px; }
+
+  .carousel .track { padding-inline: calc(50vw - 140px); scroll-padding-inline: calc(50vw - 140px); gap: 20px; }
+  .carousel .item { width: 280px; }
+  .carousel .item .ph { height: 360px; }
+  .carousel .arrow { display: none; }
+
+  .extras .grid { grid-template-columns: 1fr; }
+  .extras h2 { width: auto; }
+  /* Makieta mobile: zdjęcie wcięte z lewej, dobite do prawej krawędzi,
+     zaokrąglone tylko lewe rogi */
+  .extras .photo {
+    aspect-ratio: 7 / 5; margin-left: 14%;
+    margin-right: calc(-1 * var(--gutter));
+    border-radius: var(--r-photo) 0 0 var(--r-photo);
+  }
+
+  /* Makieta mobile: treść w kolumnie, wyśrodkowana, zdjęcie kopert
+     jako blok między tekstem a buttonem */
+  .vouchers .banner {
+    background: #0c3e27;
+    padding: 36px 24px;
+  }
+  .vouchers .content { max-width: none; justify-items: center; text-align: center; }
+  .vouchers .content .ph {
+    display: block; width: calc(100% + 48px); margin-inline: -24px;
+    aspect-ratio: 360 / 210;
+    background: url('../assets/img/img_686595f04744.jpg') 72% center / cover no-repeat;
+  }
+
+  .instagram .strip a { width: 46vw; }
+  .instagram .arc { display: none; }
+  .instagram { padding-bottom: 0; }
+}
+/* Zdjęcie kopert w banerze: widoczne tylko na mobile */
+@media (min-width: 921px) {
+  .vouchers .content .ph { display: none; }
+}
+
+
+/* ================================================================
+   Zdjęcia w powitaniu i w „Zapraszamy”: jedno wejście i jeden hover
+   • wejście „Oddech” — wyostrzenie z mgły (blur + lekki zoom), raz, przy wejściu w kadr
+   • hover — powolny zoom 1.04 (właściwość `scale`, więc nie walczy z animacją `transform`)
+   ================================================================ */
+.fx-breath { overflow: hidden; }
+.fx-breath img { transition: scale .8s ease; }
+.fx-breath:hover img { scale: 1.04; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .fx-breath:not(.fx-play) { opacity: 0; }
+  .fx-breath.fx-play { animation: fx-fade 1s ease both; }
+  .fx-breath.fx-play img { animation: fx-breath 2.6s cubic-bezier(.22,.8,.3,1) both; }
+}
+@keyframes fx-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fx-breath {
+  from { filter: blur(30px) saturate(.5) brightness(1.18); transform: scale(1.18); }
+  to { filter: blur(0) saturate(1) brightness(1); transform: scale(1); }
+}
